@@ -1,0 +1,8 @@
+***** On veut créer une table (et un model evidement) pour les commentaire des posts *****
+- On construit notre model: php artisan make:model comment -m (-m pour créer une migration)
+- on ouvre le fichier de la migration de commentaire pour rajouter le champs content
+- et on rajoute la clé étrangére (post_id): $table->foreignId('post_id')->constrained('posts');
+- puis dans le terminal: "php artisan migrate" pour construire la table dans la base de donnée
+- ATTENTION: mon phpMyAdmin ne fait pas la relation de la clé étrangére (donc j'ai fait la main)
+- aller ensuite sur le model Post.php et rajouter: la fonction pour hasMany (plusieur à un)
+- et sur le model commentaire rajouter : la fonction pour belongsTo (un à plusieur)

@@ -1,0 +1,8 @@
+- Faire une architecture UML
+- Documenter le code
+- git
+-
+
+
+http://localhost/Formation%20ICS/16-%20Laravel/training/public/Storage
+http://localhost/Formation%20ICS/16-%20Laravel/training/public/Storage/imagesCompet/1626170416.jpg

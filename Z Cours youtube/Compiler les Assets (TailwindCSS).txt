@@ -1,0 +1,30 @@
+********* Vidéo 5 de Youtube *********
+- Regarde d'abord l'explication sur le fichier webpack.mix.js qui se trouve dans la racine de notre projet laravel (tout en bas).
+- Aller dans le terminal et dans le dossier de notre projet
+- verifier la disponibilité de node JS et npm : " node -v " et " npm -v " 
+- faire: "npm install"
+- on compile tous ça avec: " npm run dev "
+- on se retrouve avec 2 nouveaux dossiers dans le dossier public (css et js) qui contiennent respectivement: un app.js (rempli avec tous les require) et un app.css (vide)
+- on ouvre le fichier app.css du dossier resources/css et on rentre du code (pour le backround color par exemple)
+- Une fois le fichier app.css du dossier resources/css est modifier on doit le recompiler avec "npm run watch" (-> pour que ce code soit écrit dasn le fichier app.css du dossier public/css)
+- Maintenant dés qu'on modifie le app.css du dossier resources/css et qu'on enregistre -> ça va impacter le fichier app.css du dossier public/css.
+- Pour inclure ce fichier css dans notre site, on va dans le fichier app.php du layouts et on utilise la commande habituelle: <link rel="stylsheet" href="style.css"> sauf que pour le href
+on va utiliser du code Blade pour renseigné le lien de notre fichier css: href="{{ asset(css/app.css) }} => {{-- asset('css/app.css') va ramener le lien du fichier app.css qui est "http://localhost/Formation%20ICS/16-%20Laravel/tutoYoutube/public/css/app.css"--}}
+
+
+						---- TailwindCSS ----
+
+(Voir le site de laravel: https://laravel.com/docs/8.x/mix#tailwindcss )
+- on revient sur le terminal et on fait d'abord un ctrl+C pour arréter le programme de commande: O
+- on labce la commande " npm install -D tailwindcss "
+- puis la commande " npx tailwindcss init " pour générer un fichier tailwind.config.js à la racine de notre projet
+- Ensuite, vous devez ajouter chacune des "couches" de Tailwind au fichier resources/css/app.css de votre application
+- Une fois que vous avez configuré les couches de Tailwind, vous êtes prêt à mettre à jour le fichier webpack.mix.js de votre application pour compiler votre CSS Tailwind: 
+  			mix.js('resources/js/app.js', 'public/js')
+   			 .postCss('resources/css/app.css', 'public/css', [
+        			require('tailwindcss'),
+    			]);
+- vous devez référencer votre feuille de style dans le modèle de mise en page principal de votre application: rajouter le link de notre fichier CSS sur la page Layout: <link href="/css/app.css" rel="stylesheet">
+- Enfin on compile avec: " npm run dev "
+- Aprés la compilation quand on revient sur mon fichier public/css/app.css je vois que j'ai le css de Tailwindcss (/*! tailwindcss v2.1.2 | MIT License | https://tailwindcss.com*/)
+on peut maintenant utiliser ses classes (c'est comme bootstrap)

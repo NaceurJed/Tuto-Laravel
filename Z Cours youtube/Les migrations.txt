@@ -1,0 +1,27 @@
+**** gestion de la migration à la base de données ****
+Il y a le fichier database.php dans congig qui va gérer les connexion au base de donnée et qui fait référence au fichier .env
+dans le fichier .env : nous avons cette section qui va gérer la connexion à la base de données
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel  (c'est le nom de la base de données qu'il va falloir adapter)
+DB_USERNAME=root
+DB_PASSWORD=
+
+- Grace au systéme de migration de Laravel on va pouvoir créer des tables
+- pour créer une table on va utiliser: " php artisan make:migration create_task_table  " ATTENTION -> regarde la ligne 5
+- le fichier de la table sera crée dans database/migrations qui contient déjà des migrations. (on a besoin d'un modéle)
+- Mais on ne va pas utiliser cette methode de migration (php artisan make:migration create_task_table) car ce n'est pas trés optimisé car en régle général on doit pour chaque table avoir un modéle (une classe)
+- On va donc devoir créer un modéle et sa migration (table) grace à la commande: " php artisan make:model NomModel -m " 
+- cette derniére commande nous a générer un modele Post dans app/Models (Post.php) et une migration dans 2021_05_31_092919_create_posts_table.php
+- On va ouvrir le fichier 2021_05_31_092919_create_posts_table.php pour ajouter les colonnes de notre table Post qu'on va créer 
+- une fois qu'on a rajouter les colonnes qu'on veut on va devoir créer la table dans notre base de donnée (configuré dans le fichier .env) grace à la commande: " php artisan migrate " *: ça va prendre chacun de nos fichier dans le dossier migration et créer des table correspondant 
+*la commande " php artisan migrate " peut utiliser différente option comme :rest (pour supprimer la table si elle existe ) ou :refresh (ça va à la fois retirer toute nos tables et les remettre)
+ATTENTION: IL FAUT MODIFIER LE FICHIER app/Providers/AppServiceProvider.php ET LUI AJOUTER:
+			use Illuminate\Support\Facades\Schema;
+			public function boot()
+			{
+    				Schema::defaultStringLength(191);
+			}
+- Ici notre base de donnée est vide et on veut lui créer les table: " php artisan migrate "
+- Les tables sont créee ainsi que la table Post

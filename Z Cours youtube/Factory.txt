@@ -1,0 +1,15 @@
+On va créer une nouvelle factory:
+- php artisan make:factory Nomfactory --model=Post (ici NomFactory = Post)
+- on va dans le factory crée est on ajoute:
+public function definition()
+    {
+        return [
+            'title' => $this->faker->sentence,
+            'content' => $this->faker->paragraph,
+            'created_at' => now();
+        ];
+    }
+- On revient sur le terminal: " php artisan tinker "
+- ça va ouvrir comme un bac à sable et on peut taper du php
+- Post::factory()->count(10)->create();  ici on va appeler la fonction factory basée sur le model Post est il va nous générer 10 article correspondant à nos champs de la classe Post
+- ça nous a généré 10 posts

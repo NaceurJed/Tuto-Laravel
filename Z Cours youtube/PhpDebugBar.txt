@@ -1,0 +1,8 @@
+Un module à incorporer dans notre site. ça va recueillir plein d'infos.
+**Installation**
+- soit en mode require
+- soit par composer
+
+****** Il existe une version Laravel ******
+(voir le projet de Barryvdh sur Github: https://github.com/barryvdh/laravel-debugbar)
+- On va installer le projet avec la commande: composer require barryvdh/laravel-debugbar --dev

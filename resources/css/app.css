@@ -1,0 +1,12 @@
+/*C'est ce fichier qu'il faut modifier pour impacter le CSS*/
+
+/*body{
+	background-color: red;
+}*/
+
+
+
+/* on rajoute les couche de tailwindCSS ici */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

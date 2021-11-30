@@ -1,0 +1,13 @@
+Elopquent est un systéme qui va nous permettre d'intergair avec nos bases de données et cette interaction se fait à travers de nos modeles
+
+** On revient sur les modéles **
+- dans le dossier models, nous avons le model Post qui est relié à la table post, et c'est ici qu'on peut redefinir la structure de la table
+renommer la table : protected $table = ...
+redefinir la clé primaire: protected $primaryKey = ... 
+
+/*** Récupérer des données de la base de données ***/
+- Nous avons créer 10 post dans notre table Post est on va voir comment les recupérer
+- (voir ligne 52 de PostControleur.php) on commence par stocker le tous dans une variable $posts 
+- On utilise notre model Post: $posts = Post <- c'est le model, ATTENTIOn il ne faut pas oublier d'importer notre model tout en haut avec "use App\Models\Post"
+- $posts = Post::all(); ça va nous ramener toutes les valeurs dans la table post
+

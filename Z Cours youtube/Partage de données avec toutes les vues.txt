@@ -1,0 +1,37 @@
+  Si on veut partager des données sur toutes les vues (au lieu de les récupérer dans le controlleur et les retourner
+dans la vue en question, et ça pour chaque méthode) -> on peut utiliser les dossier PROVIDERS.
+
+  Méthode:
+  - On ouvre le fichier AppServiceProvider dans App/Providers.
+  - Dans la fonction boot: on ajoute notre code qui va récupérer les données et on appelle la class View 
+    (ATTENTION:: NE PAS OUBLIER DE RAPPELER LES CLASS CONSERNEE, use Illuminate\Support\Facades\View; et 
+    use App\Models\Competition; dans notre exemple).
+  - EXEMPLE:
+	public function boot()
+    	{
+        	Schema::defaultStringLength(191);
+        	$compet = Competition::orderBy('date_compet')->take(3)->get(); on récupére les compet
+        	View::share('compets', $compet); on envoi la variable compets (qui contien $compet dans les vues)
+    	}
+
+**************************************************************
+* Si on veut envoyer plusieurs données de différentes tables *
+**************************************************************
+static function getDataGeneral()
+	{
+        	$formations = Formation::orderBy('nom')->get();
+        	$groupes = Groupe::orderBy('nom')->get();
+       		return ['formations' => $formations, 'groupes' => $groupes];
+    	}
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        foreach(self::getDataGeneral() as $key => $value){
+            View::share($key, $value);
+        }
+    }

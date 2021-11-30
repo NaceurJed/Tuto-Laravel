@@ -1,0 +1,18 @@
+- On peut aussi recupérer le path: dd($request->path()); ça donne "posts/create"
+- verifier une url: dd($request->is('posts/*')); on verifie si l'url contient posts/n'importe quoi aprés, ça renvoie true/false
+- On vérifie controle le nom de la route où est envoyé la méthode POST: dd($request->routeIs('posts.store')); true/false
+- On peut recupérer l'URL: dd($request->url()); ça renvoi toute l'url depuis localhost
+- On peut recupérer l'URL avec tous les paramétre: dd($request->fullUrl());
+- On peut recupérer l'URL en lui rajoutant un paramétre et sa valeur: $request->fullUrlWithQuery(['name' => 'naceur']); On obtient une URL avec un paramétre name='naceur'
+- On récupére la méthode par laquelle nous avons envoyer notre formulaire: dd($request->method()); ça donne POST
+- ou pour vérifier la méthode: dd($request->isMethod('POSt')); si c'est une methode POST: true ou false
+- Récupérer tous les input: $input = $request->all();
+- On peut aussi générer un nouvel input ou le modifer s'il existe: $name = $request->input('name', 'Sally');
+- Lorsque vous travaillez avec des formulaires contenant des entrées de tableau, utilisez la notation «point» pour accéder aux tableaux: $name = $request->input('products.0.name'); tableau= products, index=0 (ou * pour tous), champ= name
+- pour récupérer que le paramétre dans l'url (envoyé en GET): $name = $request->query('name');
+- récupérer les valeurs de checkbox (si cocher ou pas): $homme = $request->boolean('homme'); ça renvoi true (si coché) ou false (si non coché). homme c'est le name de la checkbox
+- Récupération d'une partie des données d'entrée (méthode Only ou except): 
+$input = $request->only(['username', 'password']); récupére que username et password
+$input = $request->except(['credit_card']); récupérer tout sauf credit_card
+- On peut récupérer des fichiers envoyé par un formualire: $file = $request->file('photo') ou $file = $request->photo; photo c'est le name de l'input. On se retouve avec une instance d'un objet UploadedFile qui contient plein d'info. On peut donc récupérer les info qu'on veut de l'image. exemple l'extension: $extension = $request->photo->extension();
+- Pour stocker les fichiers grace à la méthode store: $path = $request->photo->store('images'); ça va retourner le chemin du fichier dans la variable $path ET créer un dossier images dans storage/app/ où sera stockée l'image avec un nouveau nom généré par laravel

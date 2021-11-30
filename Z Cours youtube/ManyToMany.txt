@@ -1,0 +1,24 @@
+Pour les relation many to many on va avoir besoin d'une table intermédiaire
+Posts 
+tags
+post_tag -> va faire la relation entre les deux table Posts et tags. Elle contient: post_id et tag_id.
+
+- On va créer le model (ou class) Tag et biensûr la table (migration): php artisan make:model tag -m.
+- On rajoute les champs dont on a besoin (ici on a rajouter name) dans la migration.
+- On doit aussi créer la table post_tag: on peut faire comme on fait d'habitude (php artisan make:model post_tag -m) ce qui nous génére un model
+MAIS on va faire différement: php artisan make:migration create_pivot_table_post_tag (on va seulement générer un fichier migration de la table de pivot post_tag)
+- on peut supprimer le id et timestamps, Mais on doit rajouter les deux clés étrangére et gérer le on delete
+- php artisan migrate (pour construire les tables)
+- Ensuite dans les models Post et tag il faut rajouter les fonctions qui vont contenir belongsToMany
+public function tags()      					public function posts()      
+    {								    {
+        return $this->belongsToMany(Tag::class);			return $this->belongsToMany(Post::class);
+    }								    }
+- Si la table de pivot ne respecte pas la convention (nom tables sans "s" et par ordre alphabetique séparé par _): return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id'); 
+On va devoir redefinir le nom de la table pivot et les différente clés étrnagéres 
+        
+/*** Attacher / Détacher et autre méthode regarde la doc laravel (https://laravel.com/docs/8.x/eloquent-relationships#updating-many-to-many-relationships) ***/
+$user = Post::find(1);
+
+$user->tags()->attach($tag_Id);
+   

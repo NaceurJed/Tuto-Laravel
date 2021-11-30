@@ -1,0 +1,44 @@
+/****** La validation se faire dans le fichier controleur (où est envoyé le formulaire) juste avant le traitement du formulaire ******/
+
+/**** Validation du formulaire ****/
+$request->validate([
+	'title' => 'required|min:5|max:20|unique:posts', //obligatoir|minimum 5 caractéres|...|unique dans la table posts
+	// OU 'title' => ['required', 'min:5', 'max:20', 'unique:posts'], utile pour les régle personalisée
+	'content' => 'required'
+]);
+//Si les champs ne sont pas rempli on ne passe pas cette étape, mais on dois récupérer les erreurs pour les afficher, ça sera dans le fichier form.blade.php.
+
+			**************************************************************************
+{{-- on va avoir des messages en anglais, pour les traduire on va dans config/app.php et on modifie 'local' => 'fr' pour lui indiquer d'utiliser le fichier fr (il faut biensur le créer)
+	- Puis dans resources/lang/en/ on a un fichier validation qui regroupe tous les massages d'erreur en anglais
+	- On créer un dossier fr et on copie tous les fichers de en dans fr et traduire au fur et à mesure les messages d'erreurs
+
+*** - On peut aussi créer une nouvelle régle: en passant par le terminal " php artisan make:rule Uppercase "
+	- ça va nous créer un fichier Uppercase.php dans le dossier rules (qu'il crée aussi) dans app 
+	- On ouvre le fichiers et on trouve 3 méthodes
+	- on va modifier la méthode passes qui renvoie un booleen true ou false en fonction de notre régle:
+	return strtoupper($value) === $value; ça va retourner true si $value est en MAJUSCULE
+	- On modifie ensuite la méthode message: return 'le champ '.$attribute.' doit être en MAJUSCULE';
+	- on revient sur notre fichier qui traite le formulaire(PostControleur) pour ajouter cette régle, et cette fois nous avons besoin de passer nos régle avec un tableau: 'title' => ['required', 'min:5', 'max:20', 'unique:posts', new Uppercase]
+	- SANS OUBLIER le use App\Rules\Uppercase;
+
+*** - On peut même modifier le message d'erreur en brute:
+		request()->validate([
+    			'email' => ['required', 'email'],
+    			'password' => ['required', 'confirmed', 'min:8'],
+    			'password_confirmation' => ['required'],
+		], [
+    			'password.min' => 'Pour des raisons de sécurité, votre mot de passe doit faire :min caractères.'
+		]);
+
+*** - On peut modifier le message en fonction du name de l'attribut (ou du champ input)
+'custom' => [
+        'attribute-name' => [
+            'rule-name' => 'custom-message',
+        ],
+        //message personalisé pour un champ title
+        'title' => [
+            'required' => 'Le titre du post est obligatoire.',
+        ]
+    ],
+--}}

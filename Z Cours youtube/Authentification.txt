@@ -1,0 +1,47 @@
+***************** Authentification ********************
+- @@@ ATTENTION @@@ Il faut le créer depuis le début avec un projet vierge, SI NON CA EFFACE LE FICHIER WEB.PHP ET LE REECRIT A SA FACON !!!
+- " composer create-project laravel/laravel <nomProjet> "
+- editer son fichier d'environnement (.env): pour être en raccord avec le nom de la base de données
+- Laravel est fourbi avec un Model User
+- il y a une interface authenticable, reset de mot de passe, d'autorisation
+- il y a aussi une migration de la table Users
+
+- On va installer Laravel Breeze qui va nous permettre de bénécifier d'un systéme d'authentification:
+	" composer require laravel/breeze --dev "
+- à la fin de l'installation, nous obtenons une nouvelle commande breeze, on va l'exécuter:
+	" php artisan breeze:install "
+- Si on revient dans le fichier web.php on remarque une nouvelle route et un requiere auth qui a créer toute un packet de route
+Un nouveau fichier dans le dossier route ('auth.php') a été généré qui contient plein de routes.
+- Un autre dossier "Auth" a été crée dans App/Http/Controller, dans lequel on retrouve toutes les class qui concernent l'authentification
+- Il y aussi un dossier "auth" dans les resourses/views qui contient les vus
+- on va devoir maintenant compiler les assets et installer les dependances front que breeze va utiliser: on va utiliser "npm"
+- On voit qu'aprés " php artisan breeze:install ", on nous demande: Please execute the "npm install && npm run dev" command to build your assets.
+	" npm install "		puis 	" npm run dev " pour compiler les assets
+- Maintenant dans notre page d'accueil du projet, nous avons tout en haut "Login" et "Register"
+- On va migrer nos différentes tables: " php artisan migrate "
+- Toutes nos tables ont été construite dans phpMyAdmin.
+
+******** Création de nouveau controller pour faire des test **********
+- php artisan make:controller TestController
+- on créer 2 vues de routing dans routes/web.php
+	route::get('/foo', '\App\Http\Controllers\TestController', 'foo');
+	route::get('/bar', '\App\Http\Controllers\TestController', 'bar');
+- Puis dans le fichier TestController on crée nos méthode foo et bar, qui vont return des vues qu'on va créer dans un dossier test dans resourses/views
+
+* Pour ne pas avoir accées à ces deux vues sans être connecté:
+	- On va utiliser un Middleware pour court-circuité notre requêt http Si on n'a pas respecté la condition qu'on va imposer
+	(laravel vient avec un Middleware qui concerne l'identification: App/Http/Middleware/Authenticate.php)
+	- On va rajouter une méthode de construction dans notre controller TestController (voir le fichier)
+
+* Pour autoriser une vue (foo par exemple) et pas l'autre:
+	- on va rajouter dans le constructeur de TestController une méthode ->except('bar'); pour une seule vues, 
+	- ->except(['bar', 'foo']) pour plusieur vues.
+
+* Pour accéder à des info depuis la vue, on va utiliser la façade "auth"
+- si on veut afficher ou pas certaines infos sur une vues en fonction de l'authentification ou pas
+	- on va dans la vues en question (ici welcome)
+	- on va afficher le bloc 'Documentation' que si on est connecté:on va entourer notre bloc avec '@auth' et '@endauth'	
+- Pour afficher un bloc que si on n'est pas connecté:
+	- On afficher le bloc 'Vibrant Ecosystem' que si on n'est connecté: @guest <bloc> @endguest
+
+* On peut interpoller certaines variables dans notre vue: {{ Auth::user()->name }} on veut afficher le name de user qui est connecté
